@@ -2,10 +2,10 @@
   <div class="bodyBack">
     <el-form label-position="top" label-width="80px" :model="formdata" class="formSet">
       <h2>用户登录</h2>
-      <el-form-item label="名称">
+      <el-form-item label="用户名">
         <el-input v-model="formdata.username"></el-input>
       </el-form-item>
-      <el-form-item label="活动区域">
+      <el-form-item label="密码">
         <el-input v-model="formdata.password"></el-input>
       </el-form-item>
       <el-button @click.prevent="handleLogin()" class="login-btn" type="success">登录</el-button>
@@ -15,26 +15,35 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       formdata: {
-        username: "",
-        password: ""
+        username: '',
+        password: ''
       }
-    };
+    }
   },
-  methods:{
-    handleLogin(){
-      this.$http.post(`login`, this.formdata)
-        .then((res)=>{
-          console.log(res)
+  methods: {
+    async handleLogin () {
+      const res = await this.$http.post(`login`, this.formdata)
+      const {
+        data: {
+         
+          meta: { msg, status }
+        }
+      } = res
+      if (status === 200) {
+        
+        this.$router.push({
+          name:"home"
         })
-        .catch((err)=>{
-          console.log(err)
-        })
+      } else {
+        // 提示框 -> UI
+        this.$message.error(msg)
+      }
     }
   }
-};
+}
 </script>
 
 <style>
@@ -45,13 +54,13 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.formSet{
+.formSet {
   width: 400px;
   background-color: #fff;
   padding: 20px;
   border-radius: 5px;
 }
-.login-btn{
+.login-btn {
   width: 100%;
 }
 * {
