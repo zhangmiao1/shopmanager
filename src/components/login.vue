@@ -22,6 +22,17 @@ export default {
         password: ""
       }
     };
+  },
+  methods:{
+    handleLogin(){
+      this.$http.post(`login`, this.formdata)
+        .then((res)=>{
+          console.log(res)
+        })
+        .catch((err)=>{
+          console.log(err)
+        })
+    }
   }
 };
 </script>
@@ -33,6 +44,15 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.formSet{
+  width: 400px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+}
+.login-btn{
+  width: 100%;
 }
 * {
   padding: 0;
