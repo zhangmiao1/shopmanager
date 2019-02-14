@@ -1,11 +1,6 @@
 <template>
   <div id="app">
-<<<<<<< HEAD
-
-=======
-
->>>>>>> dev-login
-    <router-view/>
+   <router-view/>
   </div>
 </template>
 
