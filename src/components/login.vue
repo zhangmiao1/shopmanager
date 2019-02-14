@@ -28,14 +28,13 @@ export default {
       const res = await this.$http.post(`login`, this.formdata)
       const {
         data: {
-         
+
           meta: { msg, status }
         }
       } = res
       if (status === 200) {
-        
         this.$router.push({
-          name:"home"
+          name: 'home'
         })
       } else {
         // 提示框 -> UI
