@@ -97,7 +97,14 @@ export default {
   },
   created () {
     // 首页加载user列表
-    this.userINdex()
+    this.userINdex();
+    //判断是否有token
+    const token=localStorage.getItem("token")
+    if(!token){
+      this.$router.push({
+        name:'login'
+      })
+    }
   }
 
 }
