@@ -16,7 +16,7 @@
       </el-header>
       <el-container>
         <el-aside width="200px" class="aside">
-          <el-menu default-active="2" class="el-menu-vertical-demo" unique-opened>
+          <el-menu default-active="2" class="el-menu-vertical-demo" unique-opened router>
             <el-submenu index="1">
               <template slot="title">
                 <i class="el-icon-location"></i>
@@ -88,7 +88,16 @@ export default {
       this.$router.push({
         name: 'login'
       })
+    },
+    userINdex () {
+      this.$router.push({
+        name: 'users'
+      })
     }
+  },
+  created () {
+    // 首页加载user列表
+    this.userINdex()
   }
 
 }
@@ -106,6 +115,7 @@ export default {
 } */
 .main {
   background-color: yellow;
+
 }
 .link {
   text-decoration: none;
