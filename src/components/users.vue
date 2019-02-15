@@ -10,10 +10,10 @@
     <!-- 搜索框 -->
     <el-row>
       <el-col>
-        <el-input placeholder="请输入内容" v-model="query" class="searchBox">
-          <el-button slot="append" icon="el-icon-search"></el-button>
+        <el-input placeholder="请输入内容" v-model="query" class="searchBox" clearable>
+          <el-button slot="append" icon="el-icon-search" @click.prevent="searchUser()"></el-button>
         </el-input>
-        <el-button type="primary" icon="el-icon-search">搜索</el-button>
+        <el-button type="primary" @click="addUser()">添加用户</el-button>
       </el-col>
     </el-row>
     <!-- 用户列表 -->
@@ -42,6 +42,18 @@
         </template>
       </el-table-column>
     </el-table>
+    <!-- 分页 -->
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="pagenum"
+      :page-sizes="[2, 4, 6, 8]"
+      :page-size="2"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total"
+    ></el-pagination>
+    <!-- 对话框 -->
+   
   </el-card>
 </template>
 
@@ -51,11 +63,21 @@ export default {
     return {
       query: '',
       pagenum: 1,
-      pagesize: 3,
-      list: []
+      pagesize: 4,
+      list: [],
+      total: ''
+     
     }
   },
   methods: {
+    addUser () {
+     
+    },
+
+    searchUser () {
+      this.pagenum = 1
+      this.getUserData()
+    },
     async getUserData () {
       const AUTH_TOKEN = localStorage.getItem('token')
       this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN
@@ -66,12 +88,25 @@ export default {
       )
       console.log(res)
       const {
-        data: { users },
+        data: { users, total },
         meta: { status }
       } = res.data
       if (status === 200) {
         this.list = users
+        this.total = total
       }
+    },
+    handleSizeChange (val) {
+      console.log(`每页 ${val} 条`)
+      this.pagenum = 1
+      this.pagesize = val
+      this.getUserData()
+    },
+    handleCurrentChange (val) {
+      console.log(`当前页: ${val}`)
+
+      this.pagenum = val
+      this.getUserData()
     }
   },
   created () {
@@ -100,5 +135,4 @@ export default {
 .tableCcc {
   height: 400px;
 }
-
 </style>
