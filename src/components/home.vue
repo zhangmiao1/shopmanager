@@ -95,16 +95,17 @@ export default {
       })
     }
   },
-  created () {
+  beforeMount () {
     // 首页加载user列表
-    this.userINdex();
-    //判断是否有token
-    const token=localStorage.getItem("token")
-    if(!token){
+    // 判断是否有token
+    const token = localStorage.getItem('token')
+    if (!token) {
       this.$router.push({
-        name:'login'
+        name: 'login'
       })
+      this.$message.warning('请先登录')
     }
+    this.userINdex()
   }
 
 }
