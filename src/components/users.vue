@@ -53,7 +53,7 @@
       :total="total"
     ></el-pagination>
     <!-- 对话框 -->
-   
+
   </el-card>
 </template>
 
@@ -66,12 +66,12 @@ export default {
       pagesize: 4,
       list: [],
       total: ''
-     
+
     }
   },
   methods: {
     addUser () {
-     
+
     },
 
     searchUser () {
