@@ -7,13 +7,13 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
+import '@/assets/css/base.css'
 
 Vue.use(ElementUI)
 Vue.prototype.$http = axios
 axios.defaults.baseURL = 'http://localhost:8888/api/private/v1/'
 
 Vue.config.productionTip = false
-import '@/assets/css/base.css'
 
 /* eslint-disable no-new */
 new Vue({

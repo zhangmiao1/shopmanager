@@ -3,13 +3,13 @@
     <el-header class="header">
       <el-row>
         <el-col :span="4">
-          <div class="grid-content bg-purple">1</div>
+         <img src="@/assets/logo.png" alt="">
         </el-col>
         <el-col :span="18">
-          <div class="grid-content bg-purple-light">2</div>
+          <h2 class='middle'>电商后台管理系统</h2>
         </el-col>
         <el-col :span="1">
-          <div class="grid-content bg-purple">3</div>
+          <a href="#" class='link'  @click.prevent='goLogin()'>退出</a>
         </el-col>
       </el-row>
     </el-header>
@@ -21,7 +21,20 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data(){
+    return{
+
+    }
+  },
+  methods:{
+    goLogin(){
+      this.$router.push({
+        name:'login'
+      })
+    }
+  }
+}
 </script>
 
 <style>
@@ -29,12 +42,24 @@ export default {}
   height: 100%;
 }
 .header {
-  background-color: red;
+  background-color: #b3c0d1;
 }
 .aside {
   background-color: green;
 }
 .main {
   background-color: yellow;
+}
+.link{
+  text-decoration: none;
+  line-height: 60px;
+}
+*{
+  padding: 0;
+  margin: 0;
+}
+.middle{
+  text-align: center;
+  line-height: 60px;
 }
 </style>
