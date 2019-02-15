@@ -38,7 +38,7 @@
         <template>
           <el-button type="primary" icon="el-icon-edit" circle size="mini" plain></el-button>
           <el-button type="danger" icon="el-icon-delete" circle size="mini" plain></el-button>
-          <el-button type="success" icon="el-icon-check" circle size="mini" plain></el-button>
+          <el-button type="success" icon="el-icon-check" circle size="mini" plain @click='deleteUser()'></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -53,75 +53,107 @@
       :total="total"
     ></el-pagination>
     <!-- 对话框 -->
-
-  </el-card>
+    <el-dialog title="收货地址" :visible.sync="dialogFormVisibleAdd">
+      <el-form label-position="left" label-width="80px" :model="formdata">
+        <el-form-item label="用户名">
+          <el-input v-model="formdata.username"></el-input>
+        </el-form-item>
+        <el-form-item label="密码">
+          <el-input v-model="formdata.password"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱">
+          <el-input v-model="formdata.email"></el-input>
+        </el-form-item>
+        <el-form-item label="电话">
+          <el-input v-model="formdata.mobile"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisibleAdd = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisibleAdd = false" >确 定</el-button>
+      </div>
+    </el-dialog>
+  </el-card> 
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      query: '',
+      query: "",
       pagenum: 1,
       pagesize: 4,
       list: [],
-      total: ''
-
-    }
+      total: "",
+      dialogFormVisibleAdd: false,
+      formdata: {
+        username: "",
+        password:'',
+        email:'',
+        mobile:''
+      }
+    };
   },
   methods: {
-    addUser () {
-
+    //删除用户
+    deleteUser(){
+      if(confirm('Sure?')){
+        
+      }
+    },
+    //弹出对话框
+    addUser() {
+      this.dialogFormVisibleAdd = true;
     },
 
-    searchUser () {
-      this.pagenum = 1
-      this.getUserData()
+    searchUser() {
+      this.pagenum = 1;
+      this.getUserData();
     },
-    async getUserData () {
-      const AUTH_TOKEN = localStorage.getItem('token')
-      this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN
+    async getUserData() {
+      const AUTH_TOKEN = localStorage.getItem("token");
+      this.$http.defaults.headers.common["Authorization"] = AUTH_TOKEN;
       const res = await this.$http.get(
         `users?query=${this.query}&pagenum=${this.pagenum}&pagesize=${
           this.pagesize
         }`
-      )
-      console.log(res)
+      );
+      console.log(res);
       const {
         data: { users, total },
         meta: { status }
-      } = res.data
+      } = res.data;
       if (status === 200) {
-        this.list = users
-        this.total = total
+        this.list = users;
+        this.total = total;
       }
     },
-    handleSizeChange (val) {
-      console.log(`每页 ${val} 条`)
-      this.pagenum = 1
-      this.pagesize = val
-      this.getUserData()
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+      this.pagenum = 1;
+      this.pagesize = val;
+      this.getUserData();
     },
-    handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
 
-      this.pagenum = val
-      this.getUserData()
+      this.pagenum = val;
+      this.getUserData();
     }
   },
-  created () {
+  created() {
     // 首页加载user列表
     // 判断是否有token
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem("token");
     if (!token) {
       this.$router.push({
-        name: 'login'
-      })
-      this.$message.warning('请先登录')
+        name: "login"
+      });
+      this.$message.warning("请先登录");
     }
-    this.getUserData()
+    this.getUserData();
   }
-}
+};
 </script>
 
 <style>
