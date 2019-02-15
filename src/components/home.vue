@@ -85,6 +85,7 @@ export default {
   },
   methods: {
     goLogin () {
+      localStorage.clear()
       this.$router.push({
         name: 'login'
       })

@@ -22,9 +22,25 @@
       <el-table-column prop="username" label="姓名" width="140"></el-table-column>
       <el-table-column prop="email" label="邮箱" width="140"></el-table-column>
       <el-table-column prop="mobile" label="电话" width="140"></el-table-column>
-      <el-table-column prop="date" label="创建日期" width="140"></el-table-column>
-      <el-table-column prop="date" label="用户状态" width="140"></el-table-column>
-      <el-table-column prop="date" label="操作" width="140"></el-table-column>
+      <el-table-column label="创建日期" width="140">
+        <!-- 当单元格数据不是prop的值时，用template -->
+        <template slot-scope="scope">
+          <!-- scope.row固定写法 -->
+          {{scope.row.create_time | formdata}}
+        </template>
+      </el-table-column>
+      <el-table-column label="用户状态" width="140">
+        <template slot-scope="scope">
+          <el-switch v-model="scope.row.mg_state" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" width="140">
+        <template>
+          <el-button type="primary" icon="el-icon-edit" circle size="mini" plain></el-button>
+          <el-button type="danger" icon="el-icon-delete" circle size="mini" plain></el-button>
+          <el-button type="success" icon="el-icon-check" circle size="mini" plain></el-button>
+        </template>
+      </el-table-column>
     </el-table>
   </el-card>
 </template>
@@ -50,7 +66,7 @@ export default {
       )
       console.log(res)
       const {
-        data: {users},
+        data: { users },
         meta: { status }
       } = res.data
       if (status === 200) {
@@ -59,6 +75,15 @@ export default {
     }
   },
   created () {
+    // 首页加载user列表
+    // 判断是否有token
+    const token = localStorage.getItem('token')
+    if (!token) {
+      this.$router.push({
+        name: 'login'
+      })
+      this.$message.warning('请先登录')
+    }
     this.getUserData()
   }
 }
@@ -72,7 +97,8 @@ export default {
   width: 340px;
   margin-top: 10px;
 }
-.tableCcc{
-    height: 400px;
+.tableCcc {
+  height: 400px;
 }
+
 </style>
