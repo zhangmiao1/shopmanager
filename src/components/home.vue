@@ -16,13 +16,13 @@
       </el-header>
       <el-container>
         <el-aside width="200px" class="aside">
-          <el-menu default-active="2" class="el-menu-vertical-demo" unique-opened router>
-            <el-submenu index="1">
+          <el-menu default-active="2" class="el-menu-vertical-demo" unique-opened router >
+            <el-submenu index="1" default-active>
               <template slot="title">
                 <i class="el-icon-location"></i>
                 <span>用户管理</span>
               </template>
-              <el-menu-item index="users">
+              <el-menu-item index="users" >
                 <i class="el-icon-menu"></i>
                 用户列表
               </el-menu-item>
@@ -89,6 +89,7 @@ export default {
       this.$router.push({
         name: 'login'
       })
+      this.$message.success('退出成功')
     },
     userINdex () {
       this.$router.push({
@@ -106,7 +107,7 @@ export default {
       })
       this.$message.warning('请先登录')
     }
-    this.userINdex()
+    // this.userINdex()
   }
 
 }
@@ -123,7 +124,7 @@ export default {
   background-color: green;
 } */
 .main {
-  background-color: yellow;
+  background-color: rgb(204, 201, 201);
 
 }
 .link {
