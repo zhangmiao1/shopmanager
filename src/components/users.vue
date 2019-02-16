@@ -59,7 +59,7 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
     ></el-pagination>
-    <!-- 对话框 -->
+    <!-- 对话框--添加用户 -->
     <el-dialog title="收货地址" :visible.sync="dialogFormVisibleAdd">
       <el-form label-position="left" label-width="80px" :model="formdata">
         <el-form-item label="用户名">
@@ -85,93 +85,95 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
-      query: "",
+      query: '',
       pagenum: 1,
       pagesize: 4,
       list: [],
-      total: "",
+      total: '',
       dialogFormVisibleAdd: false,
       formdata: {
-        username: "",
-        password: "",
-        email: "",
-        mobile: ""
+        username: '',
+        password: '',
+        email: '',
+        mobile: ''
       }
-    };
+    }
   },
   methods: {
     // 删除用户
-    deleteUser(users) {
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+    deleteUser (users) {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
-        .then(async() => {
-          
-          const res= await this.$http.delete(`users/${users.id}`)
+        .then(async () => {
+          const res = await this.$http.delete(`users/${users.id}`)
+          const {meta: {msg}} = res.data
           this.getUserData()
-          this.$message.success("删除成功");
+          this.$message.success(msg)
         })
         .catch(() => {
-          this.$message.info("已取消删除");
-        });
+          this.$message.info('已取消删除')
+        })
     },
     // 弹出对话框
-    addUser() {
-      this.dialogFormVisibleAdd = true;
+    addUser () {
+      this.dialogFormVisibleAdd = true
+      // 清空输入框
+      this.formdata = {}
     },
 
-    searchUser() {
-      this.pagenum = 1;
-      this.getUserData();
+    searchUser () {
+      this.pagenum = 1
+      this.getUserData()
     },
-    async getUserData() {
-      const AUTH_TOKEN = localStorage.getItem("token");
-      this.$http.defaults.headers.common["Authorization"] = AUTH_TOKEN;
+    async getUserData () {
+      const AUTH_TOKEN = localStorage.getItem('token')
+      this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN
       const res = await this.$http.get(
         `users?query=${this.query}&pagenum=${this.pagenum}&pagesize=${
           this.pagesize
         }`
-      );
+      )
 
       const {
         data: { users, total },
         meta: { status }
-      } = res.data;
+      } = res.data
       if (status === 200) {
-        this.list = users;
-        this.total = total;
+        this.list = users
+        this.total = total
       }
     },
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-      this.pagenum = 1;
-      this.pagesize = val;
-      this.getUserData();
+    handleSizeChange (val) {
+      console.log(`每页 ${val} 条`)
+      this.pagenum = 1
+      this.pagesize = val
+      this.getUserData()
     },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+    handleCurrentChange (val) {
+      console.log(`当前页: ${val}`)
 
-      this.pagenum = val;
-      this.getUserData();
+      this.pagenum = val
+      this.getUserData()
     }
   },
-  created() {
+  created () {
     // 首页加载user列表
     // 判断是否有token
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token')
     if (!token) {
       this.$router.push({
-        name: "login"
-      });
-      this.$message.warning("请先登录");
+        name: 'login'
+      })
+      this.$message.warning('请先登录')
     }
-    this.getUserData();
+    this.getUserData()
   }
-};
+}
 </script>
 
 <style>
