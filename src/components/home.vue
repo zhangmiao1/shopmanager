@@ -16,13 +16,13 @@
       </el-header>
       <el-container>
         <el-aside width="200px" class="aside">
-          <el-menu default-active="2" class="el-menu-vertical-demo" unique-opened router >
-            <el-submenu index="1" default-active>
+          <el-menu default-active="2" class="el-menu-vertical-demo" unique-opened router>
+            <el-submenu index="1">
               <template slot="title">
                 <i class="el-icon-location"></i>
                 <span>用户管理</span>
               </template>
-              <el-menu-item index="users" >
+              <el-menu-item index="users">
                 <i class="el-icon-menu"></i>
                 用户列表
               </el-menu-item>
@@ -83,44 +83,34 @@
 
 <script>
 export default {
-  data() {
-    return {};
+  data () {
+    return {}
   },
   methods: {
-    goLogin() {
-      localStorage.clear();
+    goLogin () {
+      localStorage.clear()
       this.$router.push({
-<<<<<<< HEAD
         name: 'login'
       })
-      this.$message.success('退出成功')
-=======
-        name: "login"
-      });
->>>>>>> dev-home
     },
-    userINdex() {
+    userINdex () {
       this.$router.push({
-        name: "users"
-      });
+        name: 'users'
+      })
     }
   },
-  beforeMount() {
+  beforeMount () {
     // 首页加载user列表
     // 判断是否有token
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token')
     if (!token) {
       this.$router.push({
-        name: "login"
-      });
-      this.$message.warning("请先登录");
+        name: 'login'
+      })
+      this.$message.warning('请先登录')
     }
-<<<<<<< HEAD
-    // this.userINdex()
-=======
->>>>>>> dev-home
   }
-};
+}
 </script>
 
 <style>
@@ -134,12 +124,7 @@ export default {
   background-color: green;
 } */
 .main {
-<<<<<<< HEAD
-  background-color: rgb(204, 201, 201);
-
-=======
   background-color: rgb(216, 216, 215);
->>>>>>> dev-home
 }
 .link {
   text-decoration: none;
