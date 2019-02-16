@@ -117,7 +117,9 @@ export default {
     async putStatus () {
       const AUTH_TOKEN = localStorage.getItem('token')
       this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN
-      const res = await this.$http.put('')
+      // const res = await this.$http.put('users/:uId/state/:type',{
+      //   uId:
+      // })
     },
 
     // 清除搜索,获取所有用户数据
@@ -139,7 +141,6 @@ export default {
       const AUTH_TOKEN = localStorage.getItem('token')
       this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN
       const res = await this.$http.post('users/', this.formdata)
-      console.log(res)
       const {
         data,
         meta: { msg, status }
