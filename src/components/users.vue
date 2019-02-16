@@ -10,7 +10,13 @@
     <!-- 搜索框 -->
     <el-row>
       <el-col>
-        <el-input placeholder="请输入内容" v-model="query" class="searchBox" clearable>
+        <el-input
+          placeholder="请输入内容"
+          v-model="query"
+          class="searchBox"
+          clearable
+          @clear="getAllUser()"
+        >
           <el-button slot="append" icon="el-icon-search" @click.prevent="searchUser()"></el-button>
         </el-input>
         <el-button type="primary" @click="addUser()">添加用户</el-button>
@@ -31,12 +37,24 @@
       </el-table-column>
       <el-table-column label="用户状态" width="140">
         <template slot-scope="scope">
-          <el-switch v-model="scope.row.mg_state" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+          <el-switch
+            v-model="scope.row.mg_state"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            @change="changeMyStatus(scope.row)"
+          ></el-switch>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="140">
         <template slot-scope="scope">
-          <el-button type="primary" icon="el-icon-edit" circle size="mini" plain></el-button>
+          <el-button
+            type="primary"
+            icon="el-icon-edit"
+            circle
+            size="mini"
+            plain
+            @click="editUserShow(scope.row)"
+          ></el-button>
           <el-button
             type="danger"
             icon="el-icon-delete"
@@ -77,7 +95,26 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisibleAdd = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisibleAdd = false">确 定</el-button>
+        <el-button type="primary" @click="addUserData()">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 对话框 --编辑用户 -->
+    <el-dialog title="编辑用户" :visible.sync="dialogFormVisibleEdit">
+      <el-form label-position="left" label-width="80px" :model="formdata">
+        <el-form-item label="用户名">
+          <el-input v-model="formdata.username" disabled></el-input>
+        </el-form-item>
+
+        <el-form-item label="邮箱">
+          <el-input v-model="formdata.email"></el-input>
+        </el-form-item>
+        <el-form-item label="电话">
+          <el-input v-model="formdata.mobile"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisibleEdit = false">取 消</el-button>
+        <el-button type="primary" @click="editUserData()">确 定</el-button>
       </div>
     </el-dialog>
   </el-card>
@@ -85,95 +122,162 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      query: '',
+      query: "",
       pagenum: 1,
       pagesize: 4,
       list: [],
-      total: '',
+      total: "",
       dialogFormVisibleAdd: false,
+      dialogFormVisibleEdit: false,
       formdata: {
-        username: '',
-        password: '',
-        email: '',
-        mobile: ''
+        username: "",
+        password: "",
+        email: "",
+        mobile: ""
       }
-    }
+    };
   },
   methods: {
+    //弹出编辑框
+    async editUserShow(users) {
+      this.dialogFormVisibleEdit = true;
+      console.log(users);
+      const res = await this.$http.get(`users/${users.id}`);
+      const {
+        data,
+        meta: { msg, status }
+      } = res.data;
+      if (status === 200) {
+        this.formdata = data;
+      }
+    },
+    //编辑用户
+    async editUserData() {
+      const res=await this.$http.put(`users/${this.formdata.id}`,this.formdata)
+       const {
+        data,
+        meta: { msg, status }
+      } = res.data;
+      if (status === 200) {
+        this.dialogFormVisibleEdit=false;
+        this.$message.success(msg)
+        this.getUserData()
+      }
+
+    },
+    // 更改用户状态
+    async changeMyStatus(users) {
+      console.log(users);
+      const res = await this.$http.put(
+        `users/${users.id}/state/${users.mg_state}`
+      );
+      console.log(res);
+      const {
+        meta: { msg, status }
+      } = res.data;
+      if (status === 200) {
+        this.$message.success(msg);
+      }
+    },
+    // 清空搜索框，获取所有数据
+    getAllUser() {
+      this.getUserData();
+    },
     // 删除用户
-    deleteUser (users) {
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+    deleteUser(users) {
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
       })
         .then(async () => {
-          const res = await this.$http.delete(`users/${users.id}`)
-          const {meta: {msg}} = res.data
-          this.getUserData()
-          this.$message.success(msg)
+          const res = await this.$http.delete(`users/${users.id}`);
+          const {
+            meta: { msg, status }
+          } = res.data;
+          if (status === 200) {
+            this.getUserData();
+            this.$message.success(msg);
+          }
         })
         .catch(() => {
-          this.$message.info('已取消删除')
-        })
+          this.$message.info("已取消删除");
+        });
     },
     // 弹出对话框
-    addUser () {
-      this.dialogFormVisibleAdd = true
+    addUser() {
+      this.dialogFormVisibleAdd = true;
       // 清空输入框
-      this.formdata = {}
+      this.formdata = {};
+    },
+    // 添加用户
+    async addUserData() {
+      const AUTH_TOKEN = localStorage.getItem("token");
+      this.$http.defaults.headers.common["Authorization"] = AUTH_TOKEN;
+      const res = await this.$http.post("users/", this.formdata);
+      const {
+        data,
+        meta: { msg, status }
+      } = res.data;
+      if (status === 201) {
+        this.dialogFormVisibleAdd = false;
+        this.$message.success(msg);
+        this.list = data;
+        this.getUserData();
+      }
     },
 
-    searchUser () {
-      this.pagenum = 1
-      this.getUserData()
+    searchUser() {
+      this.pagenum = 1;
+      this.getUserData();
     },
-    async getUserData () {
-      const AUTH_TOKEN = localStorage.getItem('token')
-      this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN
+
+    async getUserData() {
+      const AUTH_TOKEN = localStorage.getItem("token");
+      this.$http.defaults.headers.common["Authorization"] = AUTH_TOKEN;
       const res = await this.$http.get(
         `users?query=${this.query}&pagenum=${this.pagenum}&pagesize=${
           this.pagesize
         }`
-      )
+      );
 
       const {
         data: { users, total },
         meta: { status }
-      } = res.data
+      } = res.data;
       if (status === 200) {
-        this.list = users
-        this.total = total
+        this.list = users;
+        this.total = total;
       }
     },
-    handleSizeChange (val) {
-      console.log(`每页 ${val} 条`)
-      this.pagenum = 1
-      this.pagesize = val
-      this.getUserData()
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+      this.pagenum = 1;
+      this.pagesize = val;
+      this.getUserData();
     },
-    handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
 
-      this.pagenum = val
-      this.getUserData()
+      this.pagenum = val;
+      this.getUserData();
     }
   },
-  created () {
+  created() {
     // 首页加载user列表
     // 判断是否有token
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem("token");
     if (!token) {
       this.$router.push({
-        name: 'login'
-      })
-      this.$message.warning('请先登录')
+        name: "login"
+      });
+      this.$message.warning("请先登录");
     }
-    this.getUserData()
+    this.getUserData();
   }
-}
+};
 </script>
 
 <style>
