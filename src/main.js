@@ -9,6 +9,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 import '@/assets/css/base.css'
 // 格式化日期
 import moment from 'moment'
+//引入面包屑组件
+import CubBread from '@/components/cubBread.vue'
+Vue.component(CubBread.name,CubBread)
 
 import axios from 'axios'
 Vue.use(ElementUI)

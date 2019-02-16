@@ -1,12 +1,7 @@
 <template>
   <el-card class="box">
     <!-- 面包屑 -->
-    <el-breadcrumb separator="/">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-
-      <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-      <el-breadcrumb-item>用户列表</el-breadcrumb-item>
-    </el-breadcrumb>
+    <cub-bread level1="权限管理" level2="权限列表"></cub-bread>
     <!-- 搜索框 -->
     <el-row>
       <el-col>
