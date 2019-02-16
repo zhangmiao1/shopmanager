@@ -106,7 +106,6 @@ export default {
       })
       this.$message.warning('请先登录')
     }
-    this.userINdex()
   }
 
 }
@@ -117,13 +116,13 @@ export default {
   height: 100%;
 }
 .header {
-  background-color: #b3c0d1;
+  background-color: #bcbcbd;
 }
 /* .aside {
   background-color: green;
 } */
 .main {
-  background-color: yellow;
+  background-color: rgb(216, 216, 215);
 
 }
 .link {

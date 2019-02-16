@@ -35,10 +35,17 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" width="140">
-        <template>
+        <template slot-scope="scope">
           <el-button type="primary" icon="el-icon-edit" circle size="mini" plain></el-button>
-          <el-button type="danger" icon="el-icon-delete" circle size="mini" plain></el-button>
-          <el-button type="success" icon="el-icon-check" circle size="mini" plain @click='deleteUser()'></el-button>
+          <el-button
+            type="danger"
+            icon="el-icon-delete"
+            circle
+            size="mini"
+            plain
+            @click="deleteUser(scope.row)"
+          ></el-button>
+          <el-button type="success" icon="el-icon-check" circle size="mini" plain></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -70,10 +77,10 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisibleAdd = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisibleAdd = false" >确 定</el-button>
+        <el-button type="primary" @click="dialogFormVisibleAdd = false">确 定</el-button>
       </div>
     </el-dialog>
-  </el-card> 
+  </el-card>
 </template>
 
 <script>
@@ -88,20 +95,31 @@ export default {
       dialogFormVisibleAdd: false,
       formdata: {
         username: "",
-        password:'',
-        email:'',
-        mobile:''
+        password: "",
+        email: "",
+        mobile: ""
       }
     };
   },
   methods: {
-    //删除用户
-    deleteUser(){
-      if(confirm('Sure?')){
-        
-      }
+    // 删除用户
+    deleteUser(users) {
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(async() => {
+          
+          const res= await this.$http.delete(`users/${users.id}`)
+          this.getUserData()
+          this.$message.success("删除成功");
+        })
+        .catch(() => {
+          this.$message.info("已取消删除");
+        });
     },
-    //弹出对话框
+    // 弹出对话框
     addUser() {
       this.dialogFormVisibleAdd = true;
     },
@@ -118,7 +136,7 @@ export default {
           this.pagesize
         }`
       );
-      console.log(res);
+
       const {
         data: { users, total },
         meta: { status }
