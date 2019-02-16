@@ -30,11 +30,15 @@
             <el-submenu index="2">
               <template slot="title">
                 <i class="el-icon-location"></i>
-                <span>导航一</span>
+                <span>权限管理</span>
               </template>
               <el-menu-item index="1-1">
                 <i class="el-icon-menu"></i>
-                选项1
+                角色列表
+              </el-menu-item>
+              <el-menu-item index="rights">
+                <i class="el-icon-menu"></i>
+                权限列表
               </el-menu-item>
             </el-submenu>
             <el-submenu index="3">
@@ -78,37 +82,35 @@
 </template>
 
 <script>
-
 export default {
-  data () {
-    return {}
+  data() {
+    return {};
   },
   methods: {
-    goLogin () {
-      localStorage.clear()
+    goLogin() {
+      localStorage.clear();
       this.$router.push({
-        name: 'login'
-      })
+        name: "login"
+      });
     },
-    userINdex () {
+    userINdex() {
       this.$router.push({
-        name: 'users'
-      })
+        name: "users"
+      });
     }
   },
-  beforeMount () {
+  beforeMount() {
     // 首页加载user列表
     // 判断是否有token
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem("token");
     if (!token) {
       this.$router.push({
-        name: 'login'
-      })
-      this.$message.warning('请先登录')
+        name: "login"
+      });
+      this.$message.warning("请先登录");
     }
   }
-
-}
+};
 </script>
 
 <style>
@@ -123,7 +125,6 @@ export default {
 } */
 .main {
   background-color: rgb(216, 216, 215);
-
 }
 .link {
   text-decoration: none;
