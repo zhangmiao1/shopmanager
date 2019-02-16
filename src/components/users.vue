@@ -114,14 +114,7 @@ export default {
   },
   methods: {
     // 更改用户状态
-    async putStatus () {
-      const AUTH_TOKEN = localStorage.getItem('token')
-      this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN
-      // const res = await this.$http.put('users/:uId/state/:type',{
-      //   uId:
-      // })
-    },
-
+    
     // 清除搜索,获取所有用户数据
     getAllUsers () {
       this.getUserData()
