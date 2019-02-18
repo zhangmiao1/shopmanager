@@ -71,12 +71,13 @@
         show-checkbox
         node-key="id"
         default-expand-all
-        :default-checked-keys="checked"
+        :default-checked-keys="arrCheck"
         :props="defaultProps"
+        ref="tree"
       ></el-tree>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisibleAdd = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisibleAdd = false">确 定</el-button>
+        <el-button type="primary" @click="setRoleRight()">确 定</el-button>
       </div>
     </el-dialog>
   </el-card>
@@ -91,20 +92,43 @@ export default {
       //  树形配置
       list: [],
 
-      checked: [],
+      arrCheck: [],
       defaultProps: {
         label: "authName",
         children: "children"
-      }
+      },
+      currRoleId: -1
     };
   },
   methods: {
+    //分配角色权限
+    async setRoleRight() {
+      //获取全选的id  this.$refs.ref的值.js方法   ref操作DOM
+      const arr1 = this.$refs.tree.getCheckedKeys();
+      //获取半选的id
+      const arr2 = this.$refs.tree.getHalfCheckedKeys();
+      const arr = [...arr1, ...arr2];
+      const res = await this.$http.post(`roles/${this.currRoleId}/rights`, {
+        rids: arr.join(",")
+      });
+    
+      const {
+        meta: { msg, status },
+        data
+      } = res.data;
+      if (status === 200) {
+        this.$message.success(msg);
+        this.getRoles()
+        this.dialogFormVisibleAdd=false
+      }
+    },
     //展示角色权限对话框
     async showDiaSetRights(role) {
       this.dialogFormVisibleAdd = true;
+      this.currRoleId = role.id;
       //获取所有角色权限
       const res = await this.$http.get(`rights/tree`);
-      console.log(res);
+
       const {
         meta: { msg, status },
         data
@@ -114,10 +138,17 @@ export default {
         this.list = data;
       }
       const imp = [];
-      role.children.forEach(item => {
-        imp.push(item.id);
-        item.c
+      role.children.forEach(item1 => {
+        // imp.push(item1.id);
+        item1.children.forEach(item2 => {
+          //   imp.push(item2.id);
+          item2.children.forEach(item3 => {
+            imp.push(item3.id);
+          });
+        });
+        this.arrCheck = imp;
       });
+      console.log(this.arrCheck);
     },
     //删除角色权限
     async deleteRoleright(roles, right) {
