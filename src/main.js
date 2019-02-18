@@ -14,7 +14,7 @@ import moment from 'moment'
 import CubBread from '@/components/cubBread.vue'
 Vue.component(CubBread.name,CubBread)
 
-import MyPlugin from '@/axios.js'
+import MyPlugin from '@/http.js'
 Vue.use(MyPlugin)
 
 Vue.filter('formdata', (v) => {
