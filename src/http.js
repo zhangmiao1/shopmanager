@@ -3,7 +3,6 @@ const MyPlugin = {}
 MyPlugin.install = function (Vue) {
     axios.defaults.baseURL = 'http://localhost:8888/api/private/v1/'
     axios.interceptors.request.use(function (config) {
-      
         // 在发起请求请做一些业务处理
         console.log(config)
         if (config.url !== 'login') {
