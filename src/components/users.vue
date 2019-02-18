@@ -155,7 +155,7 @@ export default {
       pagenum: 1,
       pagesize: 4,
       list: [],
-      total: "",
+      total: -1,
       dialogFormVisibleAdd: false,
       dialogFormVisibleEdit: false,
       dialogFormVisibleRole: false,
