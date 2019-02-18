@@ -7,6 +7,20 @@
 
 <script>
 export default {
+    data(){
+        return{
+            list:[]
+        }
+    },
+    methods:{
+        async getRightsData(){
+            const res=await this.$http.get(`rights/list`)
+            console.log(res)
+        }
+    },
+    created(){
+        this.getRightsData()
+    }
 
 }
 </script>

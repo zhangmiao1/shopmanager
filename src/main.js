@@ -6,6 +6,7 @@ import router from './router'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+Vue.use(ElementUI)
 import '@/assets/css/base.css'
 // 格式化日期
 import moment from 'moment'
@@ -13,10 +14,9 @@ import moment from 'moment'
 import CubBread from '@/components/cubBread.vue'
 Vue.component(CubBread.name,CubBread)
 
-import axios from 'axios'
-Vue.use(ElementUI)
-Vue.prototype.$http = axios
-axios.defaults.baseURL = 'http://localhost:8888/api/private/v1/'
+import MyPlugin from '@/axios.js'
+Vue.use(MyPlugin)
+
 Vue.filter('formdata', (v) => {
   return moment(v).format('YYYY-MM-DD')
 })
