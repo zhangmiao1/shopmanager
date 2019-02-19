@@ -330,44 +330,7 @@ export default {
 };
 </script>
 
-<style>
-.box {
-  height: 100%;
-}
-.searchBox {
-  width: 340px;
-  margin-top: 10px;
-}
-.tableCcc {
-  height: 400px;
-}
-</style>leSizeChange (val) {
-      console.log(`每页 ${val} 条`)
-      this.pagenum = 1
-      this.pagesize = val
-      this.getUserData()
-    },
-    handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
 
-      this.pagenum = val
-      this.getUserData()
-    }
-  },
-  created () {
-    // 首页加载user列表
-    // 判断是否有token
-    const token = localStorage.getItem('token')
-    if (!token) {
-      this.$router.push({
-        name: 'login'
-      })
-      this.$message.warning('请先登录')
-    }
-    this.getUserData()
-  }
-}
-</script>
 
 <style>
 .box {
