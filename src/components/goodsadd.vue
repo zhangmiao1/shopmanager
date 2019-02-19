@@ -12,7 +12,7 @@
       <!-- 基本信息  商品参数  商品属性 图片 内容 -->
     </el-steps>
     <!-- tab标签 -->
-    <el-form :model="form" class="form" label-width="80px">
+    <el-form v-model="form" class="form" label-position="top" label-width="80px">
       <el-tabs tab-position="left" v-model="active" @tab-click="changeData()">
         <el-tab-pane label="基本信息" name="1">
           <el-form-item label="商品名称">
@@ -46,7 +46,11 @@
             </el-checkbox-group>
           </el-form-item>
         </el-tab-pane>
-        <el-tab-pane label="商品属性" name="3">角色管理</el-tab-pane>
+        <el-tab-pane label="商品属性" name="3">
+          <el-form-item :label="item1.attr_name"  v-for='(item1) in arrStatis' :key='item1.attr_id'>
+            <el-input v-model="item1.attr_vals"></el-input>
+          </el-form-item>
+        </el-tab-pane>
         <el-tab-pane label="商品图片" name="4">角色管理</el-tab-pane>
         <el-tab-pane label="商品内容" name="5">定时任务补偿</el-tab-pane>
       </el-tabs>
@@ -77,32 +81,49 @@ export default {
       },
       //动态数据
       arrActive: [],
+      //静态数据
+      arrStatis: [],
       checkList: []
     };
   },
   methods: {
     //动态数据
     async changeData() {
-      if (this.active === "2") {
+      if (this.active === "2" || this.active === "3") {
         if (this.selectedOptions2.length !== 3) {
           this.$message.error("请先选择三级分类!");
         }
-        const res = await this.$http.get(
-          `categories/${this.selectedOptions2[2]}/attributes?sel=many`
-        );
-        const {
-          data,
-          meta: { msg, status }
-        } = res.data;
-        if (status === 200) {
-          this.arrActive = data;
-          this.arrActive.forEach(item => {
-            item.attr_vals =
-              item.attr_vals.trim().length === 0
-                ? []
-                : item.attr_vals.trim().split(",");
-          });
-          console.log(this.arrActive);
+        if (this.active === "3") {
+          const res = await this.$http.get(
+            `categories/${this.selectedOptions2[2]}/attributes?sel=only `
+          );
+          console.log(res);
+          const {
+            data,
+            meta: { msg, status }
+          } = res.data;
+          if (status === 200) {
+            this.arrStatis = data;
+          }
+        }
+        if (this.active === "2") {
+          const res = await this.$http.get(
+            `categories/${this.selectedOptions2[2]}/attributes?sel=many`
+          );
+
+          const {
+            data,
+            meta: { msg, status }
+          } = res.data;
+          if (status === 200) {
+            this.arrActive = data;
+            this.arrActive.forEach(item => {
+              item.attr_vals =
+                item.attr_vals.trim().length === 0
+                  ? []
+                  : item.attr_vals.trim().split(",");
+            });
+          }
         }
       }
     },
@@ -130,7 +151,8 @@ export default {
   height: 100%;
 }
 .alert {
-  margin: 10px 0;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 .form {
   margin-top: 20px;
