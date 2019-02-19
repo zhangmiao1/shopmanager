@@ -226,18 +226,12 @@ export default {
       }
     },
     // 更改用户状态
-    async changeMyStatus(users) {
-      console.log(users);
+    async changeMyStatus(user) {
+      console.log(user);
       const res = await this.$http.put(
-        `users/${users.id}/state/${users.mg_state}`
+        `users/${user.id}/state/${user.mg_state}`
       );
-      console.log(res);
-      const {
-        meta: { msg, status }
-      } = res.data;
-      if (status === 200) {
-        this.$message.success(msg);
-      }
+      console.log(res)
     },
     // 清空搜索框，获取所有数据
     getAllUser() {
