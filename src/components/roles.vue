@@ -110,6 +110,22 @@
         <el-button type="primary" @click="editUserData()">确 定</el-button>
       </div>
     </el-dialog>
+    <!-- 对话框--添加用户 -->
+    <el-dialog title="添加角色" :visible.sync="dialogFormVisibleRoleAdd">
+      <el-form label-position="left" label-width="80px" :model="formdata">
+        <el-form-item label="角色名称">
+          <el-input v-model="formdata.roleName"></el-input>
+        </el-form-item>
+
+        <el-form-item label="角色描述">
+          <el-input v-model="formdata.roleDesc"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisibleRoleAdd = false">取 消</el-button>
+        <el-button type="primary" @click="addUserData()">确 定</el-button>
+      </div>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -120,6 +136,8 @@ export default {
       roles: [],
       dialogFormVisibleAdd: false,
       dialogFormVisibleEdit: false,
+      dialogFormVisibleRoleAdd:false,
+
       //  树形配置
       list: [],
 
@@ -137,7 +155,28 @@ export default {
   },
   methods: {
     //添加角色对话框
-    addRole() {},
+    addRole() {
+      this.dialogFormVisibleRoleAdd=true
+      this.formdata={}
+    },
+    //添加角色
+    async addUserData(){
+     
+      const res = await this.$http.post(`roles`,this.formdata)
+      console.log(res)
+      const {
+        meta: { msg, status },
+        data
+      } = res.data;
+      if (status === 201) {
+        this.dialogFormVisibleRoleAdd = false;
+        this.formdata = data;
+        this.getRoles()
+        
+
+      }
+    },
+    
     //编辑提交角色
     async editUserData() {
       const res = await this.$http.put(
