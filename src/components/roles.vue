@@ -111,24 +111,26 @@ export default {
       const res = await this.$http.post(`roles/${this.currRoleId}/rights`, {
         rids: arr.join(",")
       });
-    
+
       const {
         meta: { msg, status },
         data
       } = res.data;
       if (status === 200) {
         this.$message.success(msg);
-        this.getRoles()
-        this.dialogFormVisibleAdd=false
+        this.getRoles();
+        this.dialogFormVisibleAdd = false;
       }
     },
     //展示角色权限对话框
     async showDiaSetRights(role) {
       this.dialogFormVisibleAdd = true;
       this.currRoleId = role.id;
+      // const AUTH_TOKEN = localStorage.getItem("token");
+      // this.$http.defaults.headers.common["Authorization"] = AUTH_TOKEN;
       //获取所有角色权限
       const res = await this.$http.get(`rights/tree`);
-
+      console.log(res);
       const {
         meta: { msg, status },
         data
@@ -148,7 +150,7 @@ export default {
         });
         this.arrCheck = imp;
       });
-      console.log(this.arrCheck);
+      // console.log(this.arrCheck);
     },
     //删除角色权限
     async deleteRoleright(roles, right) {
