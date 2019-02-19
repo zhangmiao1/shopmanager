@@ -59,22 +59,35 @@
               action="http://localhost:8888/api/private/v1/upload"
               :on-success="handleSuccess"
               :on-remove="handleRemove"
-              :headers='headers'
+              :headers="headers"
               list-type="picture"
             >
               <el-button size="small" type="primary">点击上传</el-button>
-             
             </el-upload>
           </el-form-item>
         </el-tab-pane>
-        <el-tab-pane label="商品内容" name="5">定时任务补偿</el-tab-pane>
+        <el-tab-pane label="商品内容" name="5">
+          <el-form-item>
+            <el-button type="success" plain>添加商品</el-button>
+            <quill-ditor></quill-ditor>
+          </el-form-item>
+        </el-tab-pane>
       </el-tabs>
     </el-form>
   </el-card>
 </template>
 
 <script>
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css";
+
+import { quillEditor } from "vue-quill-editor";
+
 export default {
+  components: {
+    quillEditor
+  },
   data() {
     return {
       active: "1",
@@ -100,7 +113,7 @@ export default {
       arrStatis: [],
       checkList: [],
       //上传
-     headers: {
+      headers: {
         Authorization: localStorage.getItem("token")
       }
     };
@@ -111,11 +124,10 @@ export default {
       console.log(file, fileList);
     },
     handleSuccess(response, file, fileList) {
-     
       this.form.pics.push({
         pic: response.data.tmp_path
       });
-      console.log(this.form.pics)
+      //   console.log(this.form.pics)
     },
     //动态数据
     async changeData() {
