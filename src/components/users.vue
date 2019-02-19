@@ -227,10 +227,8 @@ export default {
     },
     // 更改用户状态
     async changeMyStatus(user) {
-      console.log(user);
-      const res = await this.$http.put(
-        `users/${user.id}/state/${user.mg_state}`
-      );
+      
+      const res = await this.$http.put(`users/${user.id}/state/${user.mg_state}`);
       console.log(res)
     },
     // 清空搜索框，获取所有数据

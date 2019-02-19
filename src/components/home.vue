@@ -70,13 +70,13 @@ export default {
   beforeMount () {
     // 首页加载user列表
     // 判断是否有token
-    const token = localStorage.getItem('token')
-    if (!token) {
-      this.$router.push({
-        name: 'login'
-      })
-      this.$message.warning('请先登录')
-    }
+    // const token = localStorage.getItem('token')
+    // if (!token) {
+    //   this.$router.push({
+    //     name: 'login'
+    //   })
+    //   this.$message.warning('请先登录')
+    // }
   },
   created(){
     this.getMenus()

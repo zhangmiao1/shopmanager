@@ -9,7 +9,7 @@ import rights from '@/components/rights.vue'
 import roles from '@/components/roles.vue'
 Vue.use(Router)
 
-export default new Router({
+const router= new Router({
   routes: [{
     path: '/',
     name: 'home',
@@ -34,3 +34,21 @@ export default new Router({
     component: Login
   }]
 })
+router.beforeEach((to, from, next) => {
+  if(to.name==='login'){
+    next()
+  }else{
+    //判断是否携带token
+    const token=localStorage.getItem("token")
+    if(!token){
+      router.push({
+        name:'login'
+      })
+      Message.warning("请先登录!");
+     return
+      
+    }
+    next()
+  }
+})
+export default router
