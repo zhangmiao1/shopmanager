@@ -8,9 +8,10 @@ import users from '@/components/users.vue'
 import rights from '@/components/rights.vue'
 import roles from '@/components/roles.vue'
 import goodslist from '@/components/goodslist.vue'
+import goodsadd from '@/components/goodsadd.vue'
 Vue.use(Router)
 
-const router= new Router({
+const router = new Router({
   routes: [{
     path: '/',
     name: 'home',
@@ -23,14 +24,18 @@ const router= new Router({
       name: 'rights',
       path: '/rights',
       component: rights
-    },{
+    }, {
       name: 'roles',
       path: '/roles',
       component: roles
-    },{
+    }, {
       name: 'goods',
       path: '/goods',
       component: goodslist
+    }, {
+      name: 'goodsadd',
+      path: '/goodsadd',
+      component: goodsadd
     }]
 
   }, {
@@ -40,18 +45,18 @@ const router= new Router({
   }]
 })
 router.beforeEach((to, from, next) => {
-  if(to.name==='login'){
+  if (to.name === 'login') {
     next()
-  }else{
+  } else {
     //判断是否携带token
-    const token=localStorage.getItem("token")
-    if(!token){
+    const token = localStorage.getItem("token")
+    if (!token) {
       router.push({
-        name:'login'
+        name: 'login'
       })
       Message.warning("请先登录!");
-     return
-      
+      return
+
     }
     next()
   }
