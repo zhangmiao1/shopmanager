@@ -47,11 +47,26 @@
           </el-form-item>
         </el-tab-pane>
         <el-tab-pane label="商品属性" name="3">
-          <el-form-item :label="item1.attr_name"  v-for='(item1) in arrStatis' :key='item1.attr_id'>
+          <el-form-item :label="item1.attr_name" v-for="(item1) in arrStatis" :key="item1.attr_id">
             <el-input v-model="item1.attr_vals"></el-input>
           </el-form-item>
         </el-tab-pane>
-        <el-tab-pane label="商品图片" name="4">角色管理</el-tab-pane>
+        <el-tab-pane label="商品图片" name="4">
+          <el-form-item>
+            <!-- 上传图片 -->
+            <el-upload
+              class="upload-demo"
+              action="http://localhost:8888/api/private/v1/upload"
+              :on-success="handleSuccess"
+              :on-remove="handleRemove"
+              :headers='headers'
+              list-type="picture"
+            >
+              <el-button size="small" type="primary">点击上传</el-button>
+             
+            </el-upload>
+          </el-form-item>
+        </el-tab-pane>
         <el-tab-pane label="商品内容" name="5">定时任务补偿</el-tab-pane>
       </el-tabs>
     </el-form>
@@ -83,10 +98,25 @@ export default {
       arrActive: [],
       //静态数据
       arrStatis: [],
-      checkList: []
+      checkList: [],
+      //上传
+     headers: {
+        Authorization: localStorage.getItem("token")
+      }
     };
   },
   methods: {
+    //上传图片
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handleSuccess(response, file, fileList) {
+     
+      this.form.pics.push({
+        pic: response.data.tmp_path
+      });
+      console.log(this.form.pics)
+    },
     //动态数据
     async changeData() {
       if (this.active === "2" || this.active === "3") {
