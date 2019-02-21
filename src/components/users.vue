@@ -189,11 +189,11 @@ export default {
       this.currUserId = users.id;
       // 角色获取
       const res1 = await this.$http.get(`roles`);
-      console.log(res1);
+      // console.log(res1);
       this.roles = res1.data.data;
       // 获取指定用户的角色
       const res2 = await this.$http.get(`users/${users.id}`);
-      console.log(res2);
+      // console.log(res2);
 
       this.selectVal = res2.data.data.rid;
     },
@@ -229,7 +229,7 @@ export default {
     async changeMyStatus(user) {
       
       const res = await this.$http.put(`users/${user.id}/state/${user.mg_state}`);
-      console.log(res)
+      // console.log(res)
     },
     // 清空搜索框，获取所有数据
     getAllUser() {

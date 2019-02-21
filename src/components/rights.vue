@@ -27,7 +27,7 @@ export default {
   methods: {
     async getRightsData() {
       const res = await this.$http.get(`rights/list`);
-      console.log(res);
+      // console.log(res);
       const {
         meta: { status },
         data

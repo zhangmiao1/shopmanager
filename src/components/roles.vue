@@ -163,7 +163,7 @@ export default {
     async addUserData(){
      
       const res = await this.$http.post(`roles`,this.formdata)
-      console.log(res)
+      // console.log(res)
       const {
         meta: { msg, status },
         data
