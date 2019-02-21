@@ -13,7 +13,7 @@
       </el-table-column>
       <el-table-column prop="is_send" label="是否发货" width="100"></el-table-column>
       <el-table-column label="下单时间" width="90">
-        <template slot-scope="scope">{{scope.row.create_time|fmtDate}}</template>
+        <template slot-scope="scope">{{scope.row.create_time|formdata}}</template>
       </el-table-column>
       <el-table-column label="操作" width="180">
         <template slot-scope="scope">
