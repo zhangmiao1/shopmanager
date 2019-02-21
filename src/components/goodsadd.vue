@@ -69,7 +69,7 @@
         <el-tab-pane label="商品内容" name="5">
           <el-form-item>
             <el-button type="success" plain>添加商品</el-button>
-            <quill-ditor></quill-ditor>
+             <quill-editor class="quill" v-model="form.goods_introduce"></quill-editor>
           </el-form-item>
         </el-tab-pane>
       </el-tabs>
@@ -200,5 +200,8 @@ export default {
   margin-top: 20px;
   height: 400px;
   overflow: auto;
+}
+.quill{
+  height: 300px;
 }
 </style>
