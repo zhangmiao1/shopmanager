@@ -48,24 +48,10 @@
           <el-table-column prop="attr_name" label="商品参数"></el-table-column>
 
           <el-table-column label="操作" width="100">
-            <!-- <template slot-scope="scope">
-              <el-button
-                plain
-                size="mini"
-                type="primary"
-                icon="el-icon-edit"
-                circle
-                @click="editgoods(scope.row)"
-              ></el-button>
-              <el-button
-                plain
-                size="mini"
-                type="danger"
-                icon="el-icon-delete"
-                circle
-                @click="deletegoods(scope.row)"
-              ></el-button>
-            </template>-->
+            <template slot-scope="scope">
+              <el-button plain size="mini" type="primary" icon="el-icon-edit" circle></el-button>
+              <el-button plain size="mini" type="danger" icon="el-icon-delete" circle></el-button>
+            </template>
           </el-table-column>
         </el-table>
       </el-tab-pane>
@@ -77,26 +63,12 @@
 
           <el-table-column prop="attr_name" label="属性名称"></el-table-column>
           <el-table-column prop="attr_vals" label="属性值"></el-table-column>
-          <!-- <el-table-column label="操作" width="100">
+          <el-table-column label="操作" width="100">
             <template slot-scope="scope">
-              <el-button
-                plain
-                size="mini"
-                type="primary"
-                icon="el-icon-edit"
-                circle
-                @click="editgoods(scope.row)"
-              ></el-button>
-              <el-button
-                plain
-                size="mini"
-                type="danger"
-                icon="el-icon-delete"
-                circle
-                @click="deletegoods(scope.row)"
-              ></el-button>
+              <el-button plain size="mini" type="primary" icon="el-icon-edit" circle></el-button>
+              <el-button plain size="mini" type="danger" icon="el-icon-delete" circle></el-button>
             </template>
-          </el-table-column>-->
+          </el-table-column>
         </el-table>
       </el-tab-pane>
     </el-tabs>

@@ -17,7 +17,6 @@
         </el-form-item>
         <!-- 级联选择器 (表单元素) -->
         <el-form-item label="分类" :label-width="formLabelWidth">
-          {{selectedOptions}}
           <el-cascader
             expand-trigger="hover"
             change-on-select
@@ -35,6 +34,16 @@
     </el-dialog>
     <!-- 表格 -->
     <el-table height="450" :data="list" style="width: 100%">
+      <!--  -->
+      <el-tree-grid
+        prop="cat_name"
+        width="120"
+        label="分类名称"
+        treeKey="cat_id"
+        parentKey="cat_pid"
+        childKey="children"
+        levelKey="cat_level"
+      ></el-tree-grid>
       <el-table-column label="级别">
         <template slot-scope="scope">
           <span v-if="scope.row.cat_level===0">一级</span>
@@ -72,7 +81,12 @@
 </template>
 
 <script>
+import ElTreeGrid from "element-tree-grid";
+
 export default {
+  components: {
+    ElTreeGrid
+  },
   data() {
     return {
       list: [],
@@ -101,11 +115,34 @@ export default {
   },
   methods: {
     // 添加分类 - 发送请求
-    async addCate() {},
+    async addCate() {
+      if (this.selectedOptions.length === 0) {
+        this.form.cat_pid = 0;
+        this.form.cat_level = 0;
+      }
+       if (this.selectedOptions.length === 1) {
+        this.form.cat_pid = this.selectedOptions[0];
+        this.form.cat_level = 1;
+      }
+       if (this.selectedOptions.length === 2) {
+        this.form.cat_pid = this.selectedOptions[1];
+        this.form.cat_level = 2;
+      }
+      const res = await this.$http.post(`categories`, this.form);
+      console.log(res);
+      const {
+        meta: { msg, status }
+      } = res.data;
+      if (status === 201) {
+        this.dialogFormVisibleAdd = false;
+        this.getGoodsCate();
+      }
+    },
     // 添加分类- 显示对话框
     async addGoodsCate() {
       // 获取两级分类的数据
       const res = await this.$http.get(`categories?type=2`);
+      console.log(res);
       this.caslist = res.data.data;
 
       this.dialogFormVisibleAdd = true;
@@ -115,7 +152,7 @@ export default {
       const res = await this.$http.get(
         `categories?type=3&pagenum=${this.pagenum}&pagesize=${this.pagesize}`
       );
-      // console.log(res)
+      console.log(res);
       this.list = res.data.data.result;
       // console.log(this.list);
 
