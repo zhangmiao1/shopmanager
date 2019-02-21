@@ -43,7 +43,14 @@
             circle
             @click="editgoods(scope.row)"
           ></el-button>
-          <el-button plain size="mini" type="danger" icon="el-icon-delete" circle></el-button>
+          <el-button
+            plain
+            size="mini"
+            type="danger"
+            icon="el-icon-delete"
+            circle
+            @click="deletegoods(scope.row)"
+          ></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -105,6 +112,32 @@ export default {
     };
   },
   methods: {
+    //删除商品
+    deletegoods(goods) {
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(async () => {
+          const res = await this.$http.delete(`goods/${goods.goods_id}`);
+          const {
+            data,
+            meta: { msg, status }
+          } = res.data;
+          if (status === 200) {
+            this.$message.success(msg);
+            this.loadData()
+          }
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+    },
+    //编辑对话框
     async editgoods(goods) {
       this.dialogFormVisibleEdit = true;
 
