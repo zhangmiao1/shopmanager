@@ -68,8 +68,8 @@
         </el-tab-pane>
         <el-tab-pane label="商品内容" name="5">
           <el-form-item>
-            <el-button type="success" plain @click='addGoodsData()'>添加商品</el-button>
-             <quill-editor class="quill" v-model="form.goods_introduce"></quill-editor>
+            <el-button type="success" plain @click="addGoodsData()">添加商品</el-button>
+            <quill-editor class="quill" v-model="form.goods_introduce"></quill-editor>
           </el-form-item>
         </el-tab-pane>
       </el-tabs>
@@ -120,26 +120,27 @@ export default {
   },
   methods: {
     //添加商品
-    async addGoodsData(){
-      this.form.goods_cat=this.selectedOptions2.join(',')
-      const res=await this.$http.post(`goods`,this.form)
+    async addGoodsData() {
+      this.form.goods_cat = this.selectedOptions2.join(",");
+      const res = await this.$http.post(`goods`, this.form);
       // console.log(res)
-      const {meta:{msg,status}}=res.data
-      if(status===201){
-        this.$message.success(msg)
+      const {
+        meta: { msg, status }
+      } = res.data;
+      if (status === 201) {
+        this.$message.success(msg);
         this.$router.push({
-          name:'goods'
-        })
+          name: "goods"
+        });
       }
-      
     },
     //上传图片
     handleRemove(file, fileList) {
       // console.log(file, fileList);
-      const index=this.form.pics.findIndex(item=>{
-        return item.pic=file.response.data.tmp_path
-      })
-      this.form.pics.splice(index,1)
+      const index = this.form.pics.findIndex(item => {
+        return (item.pic = file.response.data.tmp_path);
+      });
+      this.form.pics.splice(index, 1);
     },
     handleSuccess(response, file, fileList) {
       this.form.pics.push({
@@ -152,6 +153,11 @@ export default {
       if (this.active === "2" || this.active === "3") {
         if (this.selectedOptions2.length !== 3) {
           this.$message.error("请先选择三级分类!");
+          if (this.active === "2") {
+            this.arrActive = [];
+          } else if (this.active === "3") {
+            this.arrStatis = [];
+          }
         }
         if (this.active === "3") {
           const res = await this.$http.get(
@@ -197,7 +203,7 @@ export default {
       } = res.data;
       if (status === 200) {
         this.options = data;
-        console.log(this.options)
+        console.log(this.options);
       }
     }
   },
@@ -220,7 +226,7 @@ export default {
   height: 400px;
   overflow: auto;
 }
-.quill{
+.quill {
   height: 300px;
 }
 </style>
