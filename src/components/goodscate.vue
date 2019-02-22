@@ -157,7 +157,7 @@ export default {
       // console.log(this.list);
 
       this.total = res.data.data.total;
-    },
+     },
     // 分页的相关方法
     handleSizeChange(val) {
       // console.log(`每页 ${val} 条`)

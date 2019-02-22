@@ -16,7 +16,7 @@
       </el-header>
       <el-container>
         <el-aside width="200px" class="aside">
-          <el-menu default-active="2" class="el-menu-vertical-demo" unique-opened router>
+          <el-menu  :default-active="$route.name" class="el-menu-vertical-demo" unique-opened router>
             <el-submenu :index="item1.order+''" v-for='(item1) in menus' :key="item1.id" >
               <template slot="title">
                 <i class="el-icon-location"></i>
