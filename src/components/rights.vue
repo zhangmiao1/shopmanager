@@ -2,7 +2,7 @@
   <el-card class="card">
     <cub-bread level1="权限管理" level2="权限列表"></cub-bread>
     <el-button type="primary" class="addRolebtn">添加角色</el-button>
-    <el-table :data="list" style="width: 100%">
+    <el-table v-loading='loading' :data="list" style="width: 100%">
       <el-table-column type="index" label="#" width="180"></el-table-column>
       <el-table-column prop="authName" label="权限名称" width="180"></el-table-column>
       <el-table-column prop="path" label="路径" width="180"></el-table-column>
@@ -21,7 +21,8 @@
 export default {
   data() {
     return {
-      list: []
+      list: [],
+      loading:true
     };
   },
   methods: {
@@ -33,6 +34,7 @@ export default {
         data
       } = res.data;
       if (status === 200) {
+        this.loading=false
         this.list = data;
       }
     }

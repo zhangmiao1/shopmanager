@@ -18,7 +18,7 @@
       </el-col>
     </el-row>
     <!-- 用户列表 -->
-    <el-table :data="list" style="width: 100%" class="tableCcc">
+    <el-table  v-loading="loading" :data="list" style="width: 100%" class="tableCcc">
       <el-table-column prop="id" label="#" width="60"></el-table-column>
       <el-table-column prop="username" label="姓名" width="140"></el-table-column>
       <el-table-column prop="email" label="邮箱" width="140"></el-table-column>
@@ -165,7 +165,8 @@ export default {
         email: "",
         mobile: ""
       },
-      roles: []
+      roles: [],
+      loading:true
     };
   },
   methods: {
@@ -298,6 +299,7 @@ export default {
         meta: { status }
       } = res.data;
       if (status === 200) {
+        this.loading=false
         this.list = users;
         this.total = total;
       }
@@ -316,15 +318,7 @@ export default {
     }
   },
   created() {
-    // 首页加载user列表
-    // 判断是否有token
-    const token = localStorage.getItem("token");
-    if (!token) {
-      this.$router.push({
-        name: "login"
-      });
-      this.$message.warning("请先登录");
-    }
+    
     this.getUserData();
   }
 };

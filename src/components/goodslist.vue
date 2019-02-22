@@ -109,6 +109,7 @@ export default {
 
         goods_weight: ""
       }
+      
     };
   },
   methods: {
@@ -182,6 +183,7 @@ export default {
           this.pagesize
         }`
       );
+      
       this.total = resData.data.total;
       this.list = resData.data.goods;
 

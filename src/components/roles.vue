@@ -3,7 +3,7 @@
     <cub-bread level1="权限管理" level2="角色列表"></cub-bread>
     <el-button class="addBtn" type="primary" @click="addRole()">添加角色</el-button>
     <!-- 列表 -->
-    <el-table :data="roles" style="width: 100%" height="350px">
+    <el-table v-loading='loading' :data="roles" style="width: 100%" height="350px">
       <el-table-column type="expand" width="80">
         <template slot-scope="scope">
           <el-row v-for="(item1) in scope.row.children" :key="item1.id">
@@ -150,7 +150,8 @@ export default {
       formdata: {
         roleName: "",
         roleDesc: ""
-      }
+      },
+      loading:true
     };
   },
   methods: {
@@ -303,6 +304,7 @@ export default {
         data
       } = res.data;
       if (status === 200) {
+        this.loading=false
         this.roles = data;
       }
     }
