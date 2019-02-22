@@ -326,7 +326,7 @@ export default {
 
 
 
-<style>
+<style scoped>
 .box {
   height: 100%;
 }

@@ -36,7 +36,7 @@ MyPlugin.install = function (Vue) {
         // 对响应错误做点什么
         return Promise.reject(error);
     });
-    Vue.prototype.$http = axios
+    Vue.prototype.$http = axios;
 
 }
 export default MyPlugin

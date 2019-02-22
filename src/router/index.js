@@ -1,21 +1,21 @@
 import Vue from 'vue'
-import Router from 'vue-router'
+import VueRouter from 'vue-router'
+// const Foo = () => import('./Foo.vue')
+const Home = () => import ('@/components/home.vue') 
+const Login = () => import ('@/components/login.vue') 
 
-import Login from '@/components/login.vue'
-import Home from '@/components/home.vue'
-import users from '@/components/users.vue'
+const users = () => import ('@/components/users.vue') 
+const roles = () => import ('@/components/roles.vue') 
+const rights = () => import ('@/components/rights.vue') 
+const goodslist = () => import ('@/components/goodslist.vue') 
+const goodsadd = () => import ('@/components/goodsadd.vue') 
+const goodscate = () => import ('@/components/goodscate.vue') 
+const cateparams = () => import ('@/components/cateparams.vue') 
+const order = () => import ('@/components/order.vue') 
+const reports = () => import ('@/components/reports.vue') 
+Vue.use(VueRouter)
 
-import rights from '@/components/rights.vue'
-import roles from '@/components/roles.vue'
-import goodslist from '@/components/goodslist.vue'
-import goodsadd from '@/components/goodsadd.vue'
-import goodscate from '@/components/goodscate.vue'
-import cateparams from '@/components/cateparams.vue'
-import order from '@/components/order.vue'
-import reports from '@/components/reports.vue'
-Vue.use(Router)
-
-const router = new Router({
+const router = new VueRouter({
   routes: [{
     path: '/',
     name: 'home',

@@ -46,7 +46,7 @@ export default {
 }
 </script>
 
-<style>
+<style  scoped>
 .bodyBack {
   background-color: #324152;
   height: 100%;

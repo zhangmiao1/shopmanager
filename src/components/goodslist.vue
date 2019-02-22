@@ -207,7 +207,7 @@ export default {
 };
 </script>
 
-<style>
+<style  scoped>
 .searchArea {
   margin: 10px 0;
 }

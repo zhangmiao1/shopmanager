@@ -4,12 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-Vue.use(ElementUI)
+import ELEMENT from 'element-ui'
+Vue.use(ELEMENT)
 import '@/assets/css/base.css'
-// 格式化日期
-import moment from 'moment'
 //引入面包屑组件
 import CubBread from '@/components/cubBread.vue'
 Vue.component(CubBread.name,CubBread)
@@ -17,6 +14,8 @@ Vue.component(CubBread.name,CubBread)
 import MyPlugin from '@/http.js'
 Vue.use(MyPlugin)
 
+// 格式化日期
+import moment from 'moment'
 Vue.filter('formdata', (v) => {
   return moment(v).format('YYYY-MM-DD')
 })

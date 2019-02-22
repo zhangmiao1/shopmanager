@@ -84,7 +84,7 @@ export default {
 }
 </script>
 
-<style>
+<style >
 .contain {
   height: 100%;
 }

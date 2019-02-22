@@ -54,7 +54,7 @@ export default {
 // 指定图表的配置项和数据
 </script>
 
-<style>
+<style  scoped>
 .card {
   height: 100%;
 }
